@@ -37,9 +37,11 @@ const elements = {
   modalWindow: document.getElementById('new-task-modal-window'),
   modalInput: document.getElementById('title-input'),
   modalDescription: document.getElementById('desc-input'),
-  modalSelectStatus: document.getElementById('select-status')
-
-
+  modalSelectStatus: document.getElementById('select-status'),
+  //Edt Modal
+  saveTaskChanges: document.getElementById('save-task-changes-btn'),
+  deleteTask: document.getElementById('delete-task-btn'),
+  cancelEditTaskBtn: document.getElementById('cancel-edit-btn')
   
 }
 
@@ -230,7 +232,7 @@ function toggleSidebar(show) {
   console.log(`Toggle Called!`)
   elements.showSideBarBtn.style.display = show ? 'none' : 'flex';
   elements.sideBar.style.display = show ? 'flex' : 'none';
-  
+  // Used if statement before as it comes more natural
   console.log(show)
 } 
 
@@ -240,6 +242,7 @@ function toggleTheme() {
   
     if (document.body.classList.toggle('light-theme')) {
       elements.imgLogo.src = "./assets/logo-light.svg";
+      isLightTheme;
     } else {
       elements.imgLogo.src = "./assets/logo-dark.svg";
       localeStorage.removeItem('isLight-mode')
@@ -280,16 +283,14 @@ function openEditTaskModal(task) {
   elements.modalInput.value = task.title;
   elements.modalDescription.value = task.description;
   elements.modalSelectStatus.value = task.status;
-  
   // Get button elements from the task modal
-  
-
+  const createNewTaskBtn = document.getElementById('create-task-btn');
+  const cancelAddTaskBtn = document.getElementById('cancel-add-task-btn');
   // Call saveTaskChanges upon click of Save Changes button
- 
-
+  elements.saveTaskChanges.addEventListener('click', () => saveTasks(task.id));
   // Delete task using a helper function and close the task modal
-
-
+  elements.deleteTask.addEventListener('click', () => deleteTask(task.id));
+  elements.cancelEditTaskBtn.addEventListener('click', () => toggleModal(false, elements.editTaskModal));
   toggleModal(true, elements.editTaskModal); // Show the edit task modal
 }
 
