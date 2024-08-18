@@ -35,7 +35,7 @@ const elements = {
   imgLogo: document.getElementById('logo'),
   //Modal
   modalWindow: document.getElementById('new-task-modal-window'),
-  modalInput: document.getElementById('title-input'),
+  modalTitle: document.getElementById('title-input'),
   modalDescription: document.getElementById('desc-input'),
   modalSelectStatus: document.getElementById('select-status'),
   //Edt Modal
@@ -104,6 +104,8 @@ function filterAndDisplayTasksByBoard(boardName) {
                         </div>`;
 
     const tasksContainer = document.createElement("div");
+    tasksContainer.classList.add('tasks-container'); 
+    // creates a container for for each tasks 
     column.appendChild(tasksContainer);
 
     filteredTasks.filter(task => task.status === status).forEach(task => { 
@@ -141,8 +143,13 @@ function styleActiveBoard(boardName) {
 
 
 function addTaskToUI(task) {
-  const column = document.querySelector('.column-div[data-status="${task.status}"]'); 
+  const column = document.querySelector(`.column-div[data-status="${task.status.toLowerCase()}"]`); 
+  console.log(column);
+  console.log(task);
+
   if (!column) {
+
+
     console.error(`Column not found for status: ${task.status}`);
     return;
   }
@@ -217,7 +224,10 @@ function addTask(event) {
 
   //Assign user input to the task object
     const task = {
-      
+    "title": elements.modalTitle.value,
+    "description": elements.modalDescription.value,
+    "status": elements.modalSelectStatus.value,
+    "board": elements.headerBoardName.textContent
     };
     const newTask = createNewTask(task);
     if (newTask) {
@@ -243,18 +253,26 @@ function toggleSidebar(show) {
 function toggleTheme() {
   //removed localstorage, was giving error
   
-    if (document.body.classList.toggle('light-theme')) {
+  const isLightTheme = document.body.classList.toggle('light-theme');
+  elements.imgLogo.src = isLightTheme 
+  ? "./assets/logo-light.svg" 
+  : "./assets/logo-dark.svg";
+  
+    console.log(`must be toggling to light n dark`);
+}
+
+/*
+
+if (document.body.classList.toggle('light-theme')) {
       elements.imgLogo.src = "./assets/logo-light.svg";
       
     } else {
       elements.imgLogo.src = "./assets/logo-dark.svg";
       
     } 
-  
-    console.log(`must be toggling to light n dark`);
-}
 
-/*
+
+
 function setMode(mode = DEFAULT_MODE) {
   if (mode === DARK_MODE) {
       btn.textContent = SUN;
@@ -281,14 +299,14 @@ function myFunction() {
 
 function openEditTaskModal(task) {
   // Set task details in modal inputs
-  elements.modalInput.value = task.title;
+  elements.modalTitle.value = task.title;
   elements.modalDescription.value = task.description;
   elements.modalSelectStatus.value = task.status;
   // Get button elements from the task modal
   const createNewTaskBtn = document.getElementById('create-task-btn');
   const cancelAddTaskBtn = document.getElementById('cancel-add-task-btn');
   // Call saveTaskChanges upon click of Save Changes button
-  elements.saveTaskChanges.addEventListener('click', () => saveTasks(task.id));
+  elements.saveTaskChanges.addEventListener('click', () => saveTaskChanges(task.id));
   // Delete task using a helper function and close the task modal
   elements.deleteTask.addEventListener('click', () => deleteTask(task.id));
   elements.cancelEditTaskBtn.addEventListener('click', () => toggleModal(false, elements.editTaskModal));
