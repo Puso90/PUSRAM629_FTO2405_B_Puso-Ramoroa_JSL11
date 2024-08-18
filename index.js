@@ -24,44 +24,23 @@ const elements = {
   filterDiv: document.getElementById('filterDiv'),
   hideSideBarBtn: document.getElementById('hide-side-bar-btn'),
   showSideBarBtn: document.getElementById('show-side-bar-btn'),
-  themeSwitch: document.getElementById('switch'),
   createNewTaskBtn: document.getElementById('create-task-btn'),
   modalWindow: document.getElementById('new-task-modal-window'),
   columnDivs: document.querySelectorAll('.column-div'),
-  //Tasks Container /*
-  //tasksContainer: document.querySelectorAll('.task-container'),
-  //TO DO ELEMENTS: 
-   // Also in doing
-  //columnHeadDiv: document.querySelectorAll('.column-head-div'),
-  //columnHeader: document.querySelectorAll('.columnHeader'),
-  //DOING ELEMENTS:
-  //doingHeadDiv: document.querySelector('doing-head-div'),
-  //doingText: document.querySelector('#dointText'),
-  //DONE ELEMENTS:
-  //doneHeadDiv: document.querySelector('done-head-div'),
-  //doneText: document.querySelector('#doingText'),
-  //NEW TASK MODAL
-  //modalWindow: document.querySelector('.modal-window'),
-  //modalTitle: document.querySelector('.modal-title'),
-  //inputDiv: document.querySelectorAll('input-div'),
-  //labelModalWindow: document.querySelector('.label-modal-window'),
-  //EDIT TASK MODAL
-  //editTaskModal: document.querySelector('edit-task-modal-window'),
-  //logo: document.querySelector('#logo'),
-  
-  
-  
-  //Side BAR buttons
   sideBar: document.getElementById('side-bar-div'),
+  //Theme
+  themeSwitch: document.getElementById('switch'),
+  toggleDiv: document.querySelector('.toggle-div'),
+  switchLabel: document.getElementById('label-checkbox-theme'),
+  imgLogo: document.getElementById('logo'),
+  //Modal
+  modalWindow: document.getElementById('new-task-modal-window'),
+  modalInput: document.getElementById('title-input'),
+  modalDescription: document.getElementById('desc-input'),
+  modalSelectStatus: document.getElementById('select-status')
 
-  //hideSideBar: document.querySelector('.hide-side-bar-div'),
 
   
-  
-
-  //filterDiv: document.querySelector('#filterDiv')
-
-
 }
 
 let activeBoard = ""
@@ -175,7 +154,7 @@ function addTaskToUI(task) {
   taskElement.className = 'task-div';
   taskElement.textContent = task.title; // Modify as needed
   taskElement.setAttribute('data-task-id', task.id);
-  
+
   tasksContainer.appendChild(taskElement); 
 } 
 
@@ -249,25 +228,61 @@ function addTask(event) {
 
 function toggleSidebar(show) {
   console.log(`Toggle Called!`)
-  document.getElementById('show-side-bar-btn').style.display = show ? 'none' : 'flex';
-  document.getElementById("side-bar-div").style.display = show ? 'flex' : 'none';
+  elements.showSideBarBtn.style.display = show ? 'none' : 'flex';
+  elements.sideBar.style.display = show ? 'flex' : 'none';
   
   console.log(show)
 } 
 
 
 function toggleTheme() {
- 
+  const isLightTheme =  localeStorage.setItem('isLight-mode', isLightTheme)
+  
+    if (document.body.classList.toggle('light-theme')) {
+      elements.imgLogo.src = "./assets/logo-light.svg";
+    } else {
+      elements.imgLogo.src = "./assets/logo-dark.svg";
+      localeStorage.removeItem('isLight-mode')
+    } 
+  
+    console.log(`must be toggling to light n dark`);
+  
+    
 }
 
+/*
+function setMode(mode = DEFAULT_MODE) {
+  if (mode === DARK_MODE) {
+      btn.textContent = SUN;
+      document.body.classList.add(DARK_MODE);
+      document.getElementById("light-theme").src = "Images/Dark-Image.png";
+      
+  
+  } else if (mode === LIGHT_MODE) {
+      btn.textContent = MOON;
+      document.body.classList.remove(DARK_MODE);
+      document.getElementById("light-theme").src = "Images/Light-Image.png";
+  }
+  }
+*/
+//const isLightTheme = localStorage.getItem('light-theme') === 'enabled';
+  
+/*
+function myFunction() {
+  var element = document.body;
+  element.classList.toggle("dark-mode");
+}
+*/
 
 
 function openEditTaskModal(task) {
   // Set task details in modal inputs
+  elements.modalInput.value = task.title;
+  elements.modalDescription.value = task.description;
+  elements.modalSelectStatus.value = task.status;
   
-
   // Get button elements from the task modal
-
+  
 
   // Call saveTaskChanges upon click of Save Changes button
  
@@ -314,11 +329,50 @@ function init() {
 //COMMENTS & NOTES 
 /*
       1.  Stuggled with importing correctly, fixed by adding .js on both files
+
       2.  .foreach to .forEach - FIXED!
+
       3.  Added .classList for btn.add
 
+      4.  Toggle theme works, thanks to outside eventListener. 
+          Removed one I created inside the function.
+          Now just to add image elements and fonts
+
+      5.  
+
+
+//_________________________________________________________________________________________________________________________________________________
+//REFERENCES & RESEARCH
+
+      1.  For light-mode toggle function: 
+          https://www.youtube.com/watch?v=Kxv7GIDK9tg
+
+      2.  
 
 
 
+//_________________________________________________________________________________________________________________________________________________
+//ELEMENTS | *I did a search on elements. and rounded up necessary elements*
+
+      /Tasks Container /*
+      //tasksContainer: document.querySelectorAll('.task-container'),
+      //TO DO ELEMENTS: 
+      // Also in doing
+      //columnHeadDiv: document.querySelectorAll('.column-head-div'),
+      //columnHeader: document.querySelectorAll('.columnHeader'),
+      //DOING ELEMENTS:
+      //doingHeadDiv: document.querySelector('doing-head-div'),
+      //doingText: document.querySelector('#dointText'),
+      //DONE ELEMENTS:
+      //doneHeadDiv: document.querySelector('done-head-div'),
+      //doneText: document.querySelector('#doingText'),
+      //NEW TASK MODAL
+      //modalWindow: document.querySelector('.modal-window'),
+      //modalTitle: document.querySelector('.modal-title'),
+      //inputDiv: document.querySelectorAll('input-div'),
+      //labelModalWindow: document.querySelector('.label-modal-window'),
+      //EDIT TASK MODAL
+      //editTaskModal: document.querySelector('edit-task-modal-window'),
+      //logo: document.querySelector('#logo'),
 
 */
