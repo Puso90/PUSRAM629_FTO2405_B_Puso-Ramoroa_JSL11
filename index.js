@@ -26,7 +26,7 @@ const elements = {
   showSideBarBtn: document.getElementById('show-side-bar-btn'),
   createNewTaskBtn: document.getElementById('create-task-btn'),
   modalWindow: document.getElementById('new-task-modal-window'),
-  columnDivs: document.querySelector('.column-div'),
+  columnDivs: document.querySelectorAll('.column-div'),
   sideBar: document.getElementById('side-bar-div'),
   //Theme
   themeSwitch: document.getElementById('switch'),
@@ -41,7 +41,10 @@ const elements = {
   //Edt Modal
   saveTaskChanges: document.getElementById('save-task-changes-btn'),
   deleteTask: document.getElementById('delete-task-btn'),
-  cancelEditTaskBtn: document.getElementById('cancel-edit-btn')
+  cancelEditTaskBtn: document.getElementById('cancel-edit-btn'),
+  //Header buttons
+  addNewTaskButton: document.getElementById('add-new-task-btn'),
+  deleteBoardBtn: document.getElementById('deleteBoardBtn')
   
 }
 
@@ -62,6 +65,7 @@ function fetchAndDisplayBoardsAndTasks() {
   }
 } 
 
+
 // Creates different boards in the DOM
 // TASK: Fix Bugs
 function displayBoards(boards) {
@@ -74,9 +78,9 @@ function displayBoards(boards) {
     boardElement.addEventListener('click', () => { 
       elements.headerBoardName.textContent = board;
       filterAndDisplayTasksByBoard(board);
-      activeBoard = board; //assigns active board
-      localStorage.setItem("activeBoard", JSON.stringify(activeBoard));
-      styleActiveBoard(activeBoard);
+      activeBoard = board //assigns active board
+      localStorage.setItem("activeBoard", JSON.stringify(activeBoard))
+      styleActiveBoard(activeBoard)
     });
     boardsContainer.appendChild(boardElement);
   });
@@ -137,7 +141,7 @@ function styleActiveBoard(boardName) {
 
 
 function addTaskToUI(task) {
-  const column = document.querySelector(`.column-div[data-status="${task.status}"]`); // Bloddy back ticks!!!  This is what has been tormenting me, I think!
+  const column = document.querySelector('.column-div[data-status="${task.status}"]'); 
   if (!column) {
     console.error(`Column not found for status: ${task.status}`);
     return;
