@@ -26,7 +26,7 @@ const elements = {
   showSideBarBtn: document.getElementById('show-side-bar-btn'),
   createNewTaskBtn: document.getElementById('create-task-btn'),
   modalWindow: document.getElementById('new-task-modal-window'),
-  columnDivs: document.querySelectorAll('.column-div'),
+  columnDivs: document.querySelector('.column-div'),
   sideBar: document.getElementById('side-bar-div'),
   //Theme
   themeSwitch: document.getElementById('switch'),
@@ -62,7 +62,6 @@ function fetchAndDisplayBoardsAndTasks() {
   }
 } 
 
-
 // Creates different boards in the DOM
 // TASK: Fix Bugs
 function displayBoards(boards) {
@@ -75,9 +74,9 @@ function displayBoards(boards) {
     boardElement.addEventListener('click', () => { 
       elements.headerBoardName.textContent = board;
       filterAndDisplayTasksByBoard(board);
-      activeBoard = board //assigns active board
-      localStorage.setItem("activeBoard", JSON.stringify(activeBoard))
-      styleActiveBoard(activeBoard)
+      activeBoard = board; //assigns active board
+      localStorage.setItem("activeBoard", JSON.stringify(activeBoard));
+      styleActiveBoard(activeBoard);
     });
     boardsContainer.appendChild(boardElement);
   });
@@ -138,7 +137,7 @@ function styleActiveBoard(boardName) {
 
 
 function addTaskToUI(task) {
-  const column = document.querySelector('.column-div[data-status="${task.status}"]'); 
+  const column = document.querySelector(`.column-div[data-status="${task.status}"]`); // Bloddy back ticks!!!  This is what has been tormenting me, I think!
   if (!column) {
     console.error(`Column not found for status: ${task.status}`);
     return;
@@ -238,19 +237,17 @@ function toggleSidebar(show) {
 
 
 function toggleTheme() {
-  const isLightTheme =  localeStorage.setItem('isLight-mode', isLightTheme)
+  //removed localstorage, was giving error
   
     if (document.body.classList.toggle('light-theme')) {
       elements.imgLogo.src = "./assets/logo-light.svg";
-      isLightTheme;
+      
     } else {
       elements.imgLogo.src = "./assets/logo-dark.svg";
-      localeStorage.removeItem('isLight-mode')
+      
     } 
   
     console.log(`must be toggling to light n dark`);
-  
-    
 }
 
 /*
@@ -296,16 +293,24 @@ function openEditTaskModal(task) {
 
 function saveTaskChanges(taskId) {
   // Get new user inputs
-  
-
+  elements.modalInput.value = task.title;
+  elements.modalDescription.value = task.description;
+  elements.modalSelectStatus.value = task.status;
   // Create an object with the updated task details
 
+  const updatedTask = {
+    "id": taskId,
+    "title": task.title,
+    "description": task.description,
+    "status": task.status,
+    "board": activeBoard
 
+  };
   // Update task using a helper function
- 
+  putTask(taskId, updatedTask);
 
   // Close the modal and refresh the UI to reflect the changes
-
+  
   refreshTasksUI();
 } 
 
@@ -339,7 +344,7 @@ function init() {
           Removed one I created inside the function.
           Now just to add image elements and fonts
 
-      5.  
+      5.  This was the hardest thing I've ever done since learning JavaScript
 
 
 //_________________________________________________________________________________________________________________________________________________
@@ -348,7 +353,10 @@ function init() {
       1.  For light-mode toggle function: 
           https://www.youtube.com/watch?v=Kxv7GIDK9tg
 
-      2.  
+      2.  Storing Objects with Local Storage in JavaScript
+          https://www.youtube.com/watch?v=AUOzvFzdIk4
+
+      3.
 
 
 
