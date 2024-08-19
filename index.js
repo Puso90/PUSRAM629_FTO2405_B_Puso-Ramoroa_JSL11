@@ -43,8 +43,9 @@ const elements = {
   deleteTask: document.getElementById('delete-task-btn'),
   cancelEditTaskBtn: document.getElementById('cancel-edit-btn'),
   //Header buttons
-  addNewTaskButton: document.getElementById('add-new-task-btn'),
-  deleteBoardBtn: document.getElementById('deleteBoardBtn')
+  createNewTaskBtn: document.getElementById('add-new-task-btn'),
+  deleteBoardBtn: document.getElementById('deleteBoardBtn'),
+  
   
 }
 
@@ -141,15 +142,12 @@ function styleActiveBoard(boardName) {
   });
 }
 
-
 function addTaskToUI(task) {
   const column = document.querySelector(`.column-div[data-status="${task.status.toLowerCase()}"]`); 
   console.log(column);
   console.log(task);
 
   if (!column) {
-
-
     console.error(`Column not found for status: ${task.status}`);
     return;
   }
@@ -255,8 +253,8 @@ function toggleTheme() {
   
   const isLightTheme = document.body.classList.toggle('light-theme');
   elements.imgLogo.src = isLightTheme 
-  ? "./assets/logo-light.svg" 
-  : "./assets/logo-dark.svg";
+      ? "./assets/logo-light.svg" 
+      : "./assets/logo-dark.svg";
   
     console.log(`must be toggling to light n dark`);
 }
